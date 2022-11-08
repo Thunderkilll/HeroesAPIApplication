@@ -1,5 +1,6 @@
 ﻿using HeroesAPIApp.Data;
 using HeroesAPIApp.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -12,6 +13,7 @@ namespace HeroesAPIApp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class HeroController : ControllerBase
     {
         readonly string url = "https://www.superheroapi.com/api.php/10220849299613198/";
@@ -95,7 +97,7 @@ namespace HeroesAPIApp.Controllers
 
 
         // GET api/<HeroController>/5
-        [HttpGet("{id}")]
+        [HttpGet("{id}") , Authorize]
         public Rootobject GetHero(int id){
             Rootobject new_clas_result = new Rootobject();
             try
@@ -110,12 +112,12 @@ namespace HeroesAPIApp.Controllers
             }
         }
 
-       
+
         //// GET api/CreatingHeroes/
         //[HttpGet]
         //public async Task<ActionResult<List<Rootobject>>> CreateHeroes()
         //{
-            
+
         //    for (int i = 151; i < 732; i++)
         //    {
         //        Rootobject new_clas_result = new Rootobject();
@@ -132,7 +134,7 @@ namespace HeroesAPIApp.Controllers
         //        catch (Exception ex)
         //        {
         //            throw ex;
-                   
+
         //        }
 
         //    }
@@ -141,7 +143,11 @@ namespace HeroesAPIApp.Controllers
         //}
 
         //GET api/GetMeAllHeroes
-        [HttpGet]
+
+        //Allow Anyone to get list with AllowAnonymous
+        //
+        [HttpGet , AllowAnonymous]
+
         public async Task<ActionResult<List<Hero>>> GetMeAllHeroes()
         {
             return await _context.Heroes.ToListAsync();
