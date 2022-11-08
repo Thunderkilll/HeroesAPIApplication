@@ -89,7 +89,7 @@ namespace HeroesAPIApp.Controllers
 
                 new_clas_result = resultat;
                 Console.WriteLine(resultat.ToString());
-
+               
 
                 return new_clas_result;
             }
@@ -120,6 +120,8 @@ namespace HeroesAPIApp.Controllers
         {
             return await _context.Heroes.ToListAsync();
         }
+
+        
         //// GET api/CreatingHeroes/
         //[HttpGet]
         //public async Task<ActionResult<List<Rootobject>>> CreateHeroes()

@@ -1,5 +1,6 @@
 ﻿using HeroesAPIApp.DTOs;
 using HeroesAPIApp.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -22,7 +23,7 @@ namespace HeroesAPIApp.Controllers
         public string status = "99";
         public static string logmsg = "";
         public readonly IConfiguration _config;
-
+        public static string token_now = "";
 
 
         public AuthController(IConfiguration configuration)
@@ -66,6 +67,7 @@ namespace HeroesAPIApp.Controllers
 
 
             string token = CreateToken(curr_User);
+            token_now = token;
             status = "02";
             logmsg += " Success , Login :" + status;
             Log.WriteLine(logmsg);
@@ -112,5 +114,15 @@ namespace HeroesAPIApp.Controllers
 
         }
 
+
+        [HttpGet("Token"), Authorize]
+        public string GetToken()
+        {
+            return "bearer " + token_now;
+        }
+
+
     }
+
+ 
 }

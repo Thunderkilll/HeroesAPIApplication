@@ -21,7 +21,7 @@ builder.Services.AddSwaggerGen( option =>
         Description = "Standard Authorization header using" +
         " the Bearer scheme (\"bearer {token}\")",
         In = ParameterLocation.Header,
-        Name = "Authrization",
+        Name = "Authorization",
         Type = SecuritySchemeType.ApiKey
 
     });
