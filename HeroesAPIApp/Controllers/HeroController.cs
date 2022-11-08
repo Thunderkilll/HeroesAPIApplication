@@ -113,6 +113,13 @@ namespace HeroesAPIApp.Controllers
         }
 
 
+
+        [HttpGet , AllowAnonymous]
+
+        public async Task<ActionResult<List<Hero>>> GetMeAllHeroes()
+        {
+            return await _context.Heroes.ToListAsync();
+        }
         //// GET api/CreatingHeroes/
         //[HttpGet]
         //public async Task<ActionResult<List<Rootobject>>> CreateHeroes()
@@ -146,13 +153,6 @@ namespace HeroesAPIApp.Controllers
 
         //Allow Anyone to get list with AllowAnonymous
         //
-        [HttpGet , AllowAnonymous]
-
-        public async Task<ActionResult<List<Hero>>> GetMeAllHeroes()
-        {
-            return await _context.Heroes.ToListAsync();
-        }
-
         //// POST api/<HeroController>
         //[HttpPost]
         //public void Post([FromBody] string value)
