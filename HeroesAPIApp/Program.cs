@@ -3,6 +3,7 @@ using log4net.Config;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,7 +13,20 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen( option =>
+{
+    option.AddSecurityDefinition("oauth2" , new OpenApiSecurityScheme
+    {
+        Description = "Standard Authorization header using" +
+        " the Bearer scheme (\"bearer {token}\")",
+        In = ParameterLocation.Header,
+        Name = "Authrization",
+        Type = SecuritySchemeType.ApiKey
+
+    });
+});
+
+
 builder.Services.AddAuthentication(
     JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
     {
@@ -33,12 +47,14 @@ builder.Services.AddDbContext<DataContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
 builder.Services.AddCors(options => options.AddPolicy(name: "HeroOrigins",
     policy =>
     {
         policy.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader();
     }));
 builder.Logging.AddLog4Net();
+
 XmlConfigurator.Configure(new FileInfo("log4net.config"));
 
 var app = builder.Build();
@@ -53,6 +69,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors("HeroOrigins");
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 
