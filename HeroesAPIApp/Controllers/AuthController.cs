@@ -78,7 +78,8 @@ namespace HeroesAPIApp.Controllers
         {
             List<Claim> claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name , user.Username)
+                new Claim(ClaimTypes.Name , user.Username),
+                new Claim(ClaimTypes.Role , "Visitor")
             };
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.GetSection("AppSettings:Token").Value));
             var cred = new SigningCredentials(key , SecurityAlgorithms.HmacSha512Signature);

@@ -70,6 +70,7 @@ namespace HeroesAPIApp.Controllers
 
         }
 
+      
         private Rootobject JsonResponseHero(int id, out Rootobject new_clas_result)
         {
             var httpClientHandler = new HttpClientHandler();
@@ -97,7 +98,7 @@ namespace HeroesAPIApp.Controllers
 
 
         // GET api/<HeroController>/5
-        [HttpGet("{id}") , Authorize]
+        [HttpGet("{id}") , Authorize(Roles ="Admin")]
         public Rootobject GetHero(int id){
             Rootobject new_clas_result = new Rootobject();
             try
